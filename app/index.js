@@ -111,12 +111,17 @@ var Test2Generator = yeoman.generators.Base.extend({
       type: 'checkbox',
       message: 'What do you need ?',
       choices: [{
+        name: 'SASS support',
+        value: 'sass',
+        checked: false
+      },
+      {
         name: 'CSS minification',
         value: 'cssmin',
         checked: false
       }, {
         name: 'Javascript minification',
-        value: 'jsmin',
+        value: 'uglify',
         checked: false
       },
       {
@@ -125,13 +130,13 @@ var Test2Generator = yeoman.generators.Base.extend({
         checked: false
       },
       {
-        name: 'Files concatenation',
-        value: 'concat',
+        name: 'JS linting',
+        value: 'jshint',
         checked: false
       },
       {
-        name: 'JS linting',
-        value: 'htmlmin',
+        name: 'Files concatenation',
+        value: 'concat',
         checked: false
       }
       ]
@@ -143,9 +148,11 @@ var Test2Generator = yeoman.generators.Base.extend({
        if (props.needTaskRunner){
          this.prompt(extraPrompts, function (extraProps) {
           for(var k in extraProps.customConfig){
-            this.log(extraProps.customConfig[k]);
-            this[k]=extraProps.customConfig[k];
+            // this.log(extraProps.customConfig[k]+"\\n");
+            var prefix = (this.taskRunner == "gulp") ? "gulp-" : "grunt-contrib-";
+            extraProps.customConfig[k] = prefix+extraProps.customConfig[k];
           }
+          this.customConfig = extraProps.customConfig;
           done();
          }.bind(this));
        }

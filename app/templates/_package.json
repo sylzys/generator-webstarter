@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {<% if (needFrontFramework) {%>
   	"<%= frontFramework %>": "latest"<% } if (needTaskRunner) {%>,
-  	"<%= taskRunner %>": "latest" <% } %>
+  	"<%= taskRunner %>": "latest"<% } %><% if (customConfig) {%>,<% l=customConfig.length;_.each(customConfig,function(k, i) { %>
+  	"<%= k %>": "latest"<% if (i != l-1) { %>,<% } %><% }); } %>
   }
 }
