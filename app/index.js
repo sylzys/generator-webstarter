@@ -10,14 +10,36 @@ var Test2Generator = yeoman.generators.Base.extend({
   askForForlderName: function () {
     var done = this.async();
 
-    // Have Yeoman greet the user.
-    this.log(yosay('Welcome to the marvelous Test2 generator!'));
-
+    // this.log(yosay('Welcome to the marvelous Test2 generator!'));
+    this.log("   _____ ______ ___     ____  ______   __");
+    this.log("  / ___//_  __//   |   / __ \\/_  __/  / /");
+    this.log("  \\__ \\  / /  / /| |  / /_/ / / /    / /");
+    this.log(" ___/ / / /  / ___ | / _, _/ / /    /_/");
+    this.log("/____/ /_/  /_/  |_|/_/ |_| /_/    (_)");
+    this.log(" ");
     var prompts = [{
       name: 'appName',
       message: 'Hello! What is your folder\'s name ?'
     },
     {
+      name: 'needJquery',
+      type: 'confirm',
+      message: 'Do you want to include jQuery ?'
+    }];
+
+    this.prompt(prompts, function (props) {
+      for(var k in props){
+        this[k]=props[k];
+      }
+      done();
+    }.bind(this));
+  },
+
+  askForFrameworkNeeds: function () {
+    var done = this.async();
+
+    // Have Yeoman greet the user.
+    var prompts = [{
       name: 'needFrontFramework',
       type: 'confirm',
       message: 'Would you like to use a Front-end Framework?',
@@ -35,17 +57,21 @@ var Test2Generator = yeoman.generators.Base.extend({
         checked: true
       }, {
         name: 'Foundation',
-        value: 'doundation',
+        value: 'foundation',
         checked: false
       }]
-    },
-    {
-      name: 'needJQuery',
-      type: 'confirm',
-      message: 'Do you need jQuery ?',
-      default: false
-    },
-    {
+    }];
+
+    this.prompt(prompts, function (props) {
+      for(var k in props){
+        this[k]=props[k];
+      }
+      done();
+    }.bind(this));
+  },
+  askForTaskRunnerNeeds: function () {
+    var done = this.async();
+    var prompts = [{
       name: 'needTaskRunner',
       type: 'confirm',
       message: 'Would you like to use a task runner ?',
@@ -71,32 +97,74 @@ var Test2Generator = yeoman.generators.Base.extend({
         value: 'grunt',
         checked: false
       }]
-    },
-    ];
-
+    }];
+    var extraPrompts = [{
+      name: 'needCustomConfig',
+      type: 'confirm',
+      message: 'Do you want to select tasks instead of grabbing default tasks ?',
+      default: true
+    }, {
+      when: function (response) {
+        return response.needCustomConfig;
+      },
+      name: 'customConfig',
+      type: 'checkbox',
+      message: 'What do you need ?',
+      choices: [{
+        name: 'CSS minification',
+        value: 'cssmin',
+        checked: false
+      }, {
+        name: 'Javascript minification',
+        value: 'jsmin',
+        checked: false
+      },
+      {
+        name: 'HTML minification',
+        value: 'htmlmin',
+        checked: false
+      },
+      {
+        name: 'Files concatenation',
+        value: 'concat',
+        checked: false
+      },
+      {
+        name: 'JS linting',
+        value: 'htmlmin',
+        checked: false
+      }
+      ]
+    }];
     this.prompt(prompts, function (props) {
-      // this.someOption = props.someOption;
-      // this.appName = props.appName;
-      // this.needFrontFramework = props.needFrontFramework;
-      // this.frontFramework = props.frontFramework;
-      for(var k in props) this[k]=props[k];
-        console.log("name", props);
-      done();
+      for(var k in props){
+        this[k]=props[k];
+      }
+       if (props.needTaskRunner){
+         this.prompt(extraPrompts, function (extraProps) {
+          for(var k in extraProps.customConfig){
+            this.log(extraProps.customConfig[k]);
+            this[k]=extraProps.customConfig[k];
+          }
+          done();
+         }.bind(this));
+       }
+     // done();
     }.bind(this));
-  },
-  enforceFolderName: function () {
-    if (this.appName !== this._.last(this.destinationRoot().split(path.sep))) {
-      this.destinationRoot(this.appName);
-    }
-  },
-  app: function () {
-    this.mkdir('dist');
-    this.mkdir('dist/css');
-    this.mkdir('dist/js');
-    this.mkdir('src');
-    this.mkdir('src/js');
-    this.mkdir('src/sass');
-    this.copy('_package.json', 'package.json');
+      },
+      enforceFolderName: function () {
+        if (this.appName !== this._.last(this.destinationRoot().split(path.sep))) {
+          this.destinationRoot(this.appName);
+        }
+      },
+      app: function () {
+        this.mkdir('dist');
+        this.mkdir('dist/css');
+        this.mkdir('dist/js');
+        this.mkdir('src');
+        this.mkdir('src/js');
+        this.mkdir('src/sass');
+        this.copy('_package.json', 'package.json');
     // this.copy('_bower.json', 'bower.json');
   },
 
@@ -106,4 +174,4 @@ var Test2Generator = yeoman.generators.Base.extend({
   }
 });
 
-module.exports = Test2Generator;
+    module.exports = Test2Generator;

@@ -1,6 +1,6 @@
 {
   "name": "package",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "dependencies": {<% if (needFrontFramework) {%>
   	"<%= frontFramework %>": "latest"<% } if (needTaskRunner) {%>,
   	"<%= taskRunner %>": "latest" <% } %>
