@@ -1,22 +1,8 @@
 {
   "name": "package",
-  "version": "0.0.0",
-  "dependencies": {
-  	<% if (needFrontFramework) {
-  		%><% if (frontFramework == 'fwBoostrap') { %>
-    "boostrap": "latest"<% } %>
-    <% if (frontFramework == 'fwFoundation') { %>
-    "foundation": "latest"<% } %>
-    <% } %>
-    <% if (needTaskRunner) {
-    	,
-  		%><% if (taskRunner == 'trGulp') { %>
-    "gulp": "latest"<% } %>
-    <% if (taskRunner == 'trBower') { %>
-    "bower": "latest"<% } %>
-    <% if (taskRunner == 'trGrunt') { %>
-    "grunt": "latest"<% } %>
-    <% } %>
+  "version": "1.0.0",
+  "dependencies": {<% if (needFrontFramework) {%>
+  	"<%= frontFramework %>": "latest"<% } %>
   }
 }
 

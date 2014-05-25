@@ -56,11 +56,11 @@ var Test2Generator = yeoman.generators.Base.extend({
       message: 'Which one do you need ?',
       choices: [{
         name: 'Bootstrap',
-        value: 'twitter-bootstrap',
+        value: 'bootstrap',
         checked: true
       }, {
         name: 'Foundation',
-        value: 'foundation',
+        value: 'bower-foundation',
         checked: false
       }]
     }];
@@ -156,6 +156,8 @@ var Test2Generator = yeoman.generators.Base.extend({
         done();
       }.bind(this));
      }
+     else
+        done();
    }.bind(this));
   },
   enforceFolderName: function () {
@@ -170,12 +172,13 @@ var Test2Generator = yeoman.generators.Base.extend({
     this.mkdir('build/img');
     this.mkdir('src');
     this.mkdir('src/js');
-    var cssPath = (this.taskNames.indexOf("sass") != -1) ? 'sass' : 'css'
+    var cssPath = (this.needTaskRunner && this.taskNames.indexOf("sass") != -1) ? 'sass' : 'css'
     this.mkdir('src/'+cssPath);
     this.mkdir('src/img');
     this.copy('_index.html', 'index.html');
     this.copy('_main.js', 'src/js/main.js');
     this.copy('_package.json', 'package.json');
+    this.copy('_bower.json', 'bower.json');
     this._processDirectory(this.taskRunner);
   },
 
@@ -190,8 +193,7 @@ var Test2Generator = yeoman.generators.Base.extend({
 
 
 Test2Generator.prototype._processDirectory = function(taskRunner) {
-  console.log("TR is", taskRunner);
-  if (taskRunner === 'gulp'){
+  if ('gulp' === taskRunner){
     this.mkdir('gulp');
     this.mkdir('gulp/tasks');
     this.directory('gulp/util', 'gulp/util');
@@ -205,5 +207,8 @@ Test2Generator.prototype._processDirectory = function(taskRunner) {
       this.copy('gulp/tasks/_'+this.taskNames[i]+'.js', 'gulp/tasks/'+this.taskNames[i]+'.js');
     }
   }
+    else if ('grunt' === taskRunner){
+      this.copy('_Gruntfile.js', 'Gruntfile.js');
+    }
 };
 module.exports = Test2Generator;

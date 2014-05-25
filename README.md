@@ -1,47 +1,97 @@
-# generator-test2 [![Build Status](https://secure.travis-ci.org/someuser/generator-test2.png?branch=master)](https://travis-ci.org/someuser/generator-test2)
+Yeoman Web Starter generator
+===============
 
-> [Yeoman](http://yeoman.io) generator
+A [Yeoman](http://www.yeoman.io) generator that allows you to customize your boilerplate.
 
+---
 
-## Getting Started
+- [Introduction](#introduction)
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+	- [Alternative installation methods](#alternative-installation-methods)
+		- [From github](#from-github)
+- [Usage](#usage)
+	- [Correction](#correction)
+- [TODO](#todo)
 
-### What is Yeoman?
+Dependencies
+-----------
 
-Trick question. It's not a thing. It's this guy:
+This generator relies on :
+- [Node.js](http://nodejs.org)
+- [Node Package Manager](https://www.npmjs.org/)
+- Yo : npm install yo
 
-![](http://i.imgur.com/JHaAlBJ.png)
+Introduction
+------------
 
-Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
+No more need to copy-paste folders from an old project, no more need to go on Boostrap or jQuery to fetch the sources...
 
-Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
+This generator allows you to customize your web page (or web app) boilerplate. Choose what you need, and let it prepare your files.
 
-```bash
-$ npm install -g yo
+Installation
+------------
+
+Until it is avaible on npm, please follow the [alternative installation method](#alternative-installation-methods)
+
+### Alternative installation method
+
+Clone this repository:
+
+    git clone git://github.com/sylzys/generator-webstarter.git
+
+or download it manually
+
+[Download](https://github.com/sylzys/generator-webstarter/archive/master.zip) as a zip, then unzip it.
+
+Then go into the generator directory, and link it with npm
+
+``` js
+cd generator-webstarter
+npm link
 ```
 
-### Yeoman Generators
-
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
-
-To install generator-test2 from npm, run:
-
-```bash
-$ npm install -g generator-test2
+After that, you can use the generator by typing
+``` js
+yo webstarter
 ```
 
-Finally, initiate the generator:
+Usage
+-----
 
-```bash
-$ yo test2
+### Generation
+
+Just type
+``` js
+yo webstarter
 ```
+and answer questions.
 
-### Getting To Know Yeoman
+You can choose a front-end framework among :
+- [Twitter Boostrap](http://getbootstrap.com/getting-started/)
+- [Zurb Foundation](http://foundation.zurb.com/docs/)
 
-Yeoman has a heart of gold. He's a person with feelings and opinions, but he's very easy to work with. If you think he's too opinionated, he can be easily convinced.
+The files will be fetched automatically by Bower, in YOUR_FOLDER/bower_components.
+Don't forget to include these files (CSS, JS) in the corresponding YOUR_FOLDER/src directory, or to adjust the task runner's files accordingly.
 
-If you'd like to get to know Yeoman better and meet some of his friends, [Grunt](http://gruntjs.com) and [Bower](http://bower.io), check out the complete [Getting Started Guide](https://github.com/yeoman/yeoman/wiki/Getting-Started).
+You can also choose to use a task runner:
+- [Gulp](http://gulpjs.com)
+- [Grunt](http://gruntjs.com)
 
+*Optional*: If you choose to use a task runner, you have the option to select several tasks, in addtition to default tasks (build, watch) :
+- Javascript linting
+- Javascript minification
+- Javascript concatenation
+- SASS Conversion to CSS
+- CSS minification
+- Image optimization
+- more to come...
 
-## License
+Once you selected everything you need, let the genrator fetch all dependencies for you, then **ENJOY CODING**
 
-MIT
+Todo
+-----
+- Add test tasks (mocha...)
+- Add livereload task
+- Add serve/open tasks
+- Add error verification (use custom task but nothing selected...)
