@@ -5,7 +5,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var fs = require('fs');
 
-var Test2Generator = yeoman.generators.Base.extend({
+var WebstarterGenerator = yeoman.generators.Base.extend({
   askForForlderName: function () {
     var done = this.async();
     this.log('                            ____    __    ____  _______ .______   ');
@@ -192,7 +192,7 @@ var Test2Generator = yeoman.generators.Base.extend({
 });
 
 
-Test2Generator.prototype._processDirectory = function(taskRunner) {
+WebstarterGenerator.prototype._processDirectory = function(taskRunner) {
   if ('gulp' === taskRunner){
     this.mkdir('gulp');
     this.mkdir('gulp/tasks');
@@ -211,4 +211,4 @@ Test2Generator.prototype._processDirectory = function(taskRunner) {
       this.copy('_Gruntfile.js', 'Gruntfile.js');
     }
 };
-module.exports = Test2Generator;
+module.exports = WebstarterGenerator;
