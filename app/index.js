@@ -2,24 +2,29 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
 var chalk = require('chalk');
-
+var fs = require('fs');
 
 var Test2Generator = yeoman.generators.Base.extend({
   askForForlderName: function () {
     var done = this.async();
-
-    // this.log(yosay('Welcome to the marvelous Test2 generator!'));
-    this.log("   _____ ______ ___     ____  ______   __");
-    this.log("  / ___//_  __//   |   / __ \\/_  __/  / /");
-    this.log("  \\__ \\  / /  / /| |  / /_/ / / /    / /");
-    this.log(" ___/ / / /  / ___ | / _, _/ / /    /_/");
-    this.log("/____/ /_/  /_/  |_|/_/ |_| /_/    (_)");
+    this.log('                            ____    __    ____  _______ .______   ');
+    this.log('                            \\   \\  /  \\  /   / |   ____||   _  \\  ');
+    this.log('                             \\   \\/    \\/   /  |  |__   |  |_)  | ');
+    this.log('                              \\            /   |   __|  |   _  <  ');
+    this.log('                               \\    /\\    /    |  |____ |  |_)  | ');
+    this.log('                                \\__/  \\__/     |_______||______/  ');
+    this.log('                                                                  ');
+    this.log('     _______.___________.    ___      .______     .___________. _______ .______          __  ');
+    this.log('    /       |           |   /   \\     |   _  \\    |           ||   ____||   _  \\        |  | ');
+    this.log('   |   (----`---|  |----`  /  ^  \\    |  |_)  |   `---|  |----`|  |__   |  |_)  |       |  | ');
+    this.log('    \\   \\       |  |      /  /_\\  \\   |      /        |  |     |   __|  |      /        |  | ');
+    this.log('(----)   |      |  |     /  _____  \\  |  |\\  \\----.   |  |     |  |____ |  |\\  \\----.   |__| ');
+    this.log('|_______/       |__|    /__/     \\__\\ | _| `._____|   |__|     |_______|| _| `._____|   (__) ');
     this.log(" ");
     var prompts = [{
       name: 'appName',
-      message: 'Hello! What is your folder\'s name ?'
+      message: 'Hello! What\'s your folder\'s name ?'
     },
     {
       name: 'needJquery',
@@ -37,8 +42,6 @@ var Test2Generator = yeoman.generators.Base.extend({
 
   askForFrameworkNeeds: function () {
     var done = this.async();
-
-    // Have Yeoman greet the user.
     var prompts = [{
       name: 'needFrontFramework',
       type: 'confirm',
@@ -53,7 +56,7 @@ var Test2Generator = yeoman.generators.Base.extend({
       message: 'Which one do you need ?',
       choices: [{
         name: 'Bootstrap',
-        value: 'boostrap',
+        value: 'twitter-bootstrap',
         checked: true
       }, {
         name: 'Foundation',
@@ -87,10 +90,6 @@ var Test2Generator = yeoman.generators.Base.extend({
         name: 'Gulp',
         value: 'gulp',
         checked: true
-      }, {
-        name: 'Bower',
-        value: 'bower',
-        checked: false
       },
       {
         name: 'Grunt',
@@ -101,7 +100,7 @@ var Test2Generator = yeoman.generators.Base.extend({
     var extraPrompts = [{
       name: 'needCustomConfig',
       type: 'confirm',
-      message: 'Do you want to select tasks instead of grabbing default tasks ?',
+      message: 'Do you want to select tasks in addition to default tasks ?',
       default: true
     }, {
       when: function (response) {
@@ -125,8 +124,8 @@ var Test2Generator = yeoman.generators.Base.extend({
         checked: false
       },
       {
-        name: 'HTML minification',
-        value: 'htmlmin',
+        name: 'Image optimization',
+        value: 'imagemin',
         checked: false
       },
       {
@@ -135,7 +134,7 @@ var Test2Generator = yeoman.generators.Base.extend({
         checked: false
       },
       {
-        name: 'Files concatenation',
+        name: 'File concatenation',
         value: 'concat',
         checked: false
       }
@@ -145,40 +144,66 @@ var Test2Generator = yeoman.generators.Base.extend({
       for(var k in props){
         this[k]=props[k];
       }
-       if (props.needTaskRunner){
-         this.prompt(extraPrompts, function (extraProps) {
-          for(var k in extraProps.customConfig){
-            // this.log(extraProps.customConfig[k]+"\\n");
-            var prefix = (this.taskRunner == "gulp") ? "gulp-" : "grunt-contrib-";
-            extraProps.customConfig[k] = prefix+extraProps.customConfig[k];
-          }
-          this.customConfig = extraProps.customConfig;
-          done();
-         }.bind(this));
-       }
-     // done();
-    }.bind(this));
-      },
-      enforceFolderName: function () {
-        if (this.appName !== this._.last(this.destinationRoot().split(path.sep))) {
-          this.destinationRoot(this.appName);
+      if (props.needTaskRunner){
+       this.prompt(extraPrompts, function (extraProps) {
+        this.taskNames = [];
+        for(var k in extraProps.customConfig){
+          this.taskNames.push(extraProps.customConfig[k]);
+          var prefix = (this.taskRunner == "gulp") ? "gulp-" : "grunt-contrib-";
+          extraProps.customConfig[k] = prefix+extraProps.customConfig[k];
         }
-      },
-      app: function () {
-        this.mkdir('dist');
-        this.mkdir('dist/css');
-        this.mkdir('dist/js');
-        this.mkdir('src');
-        this.mkdir('src/js');
-        this.mkdir('src/sass');
-        this.copy('_package.json', 'package.json');
-    // this.copy('_bower.json', 'bower.json');
+        this.customConfig = extraProps.customConfig;
+        done();
+      }.bind(this));
+     }
+   }.bind(this));
+  },
+  enforceFolderName: function () {
+    if (this.appName !== this._.last(this.destinationRoot().split(path.sep))) {
+      this.destinationRoot(this.appName);
+    }
+  },
+  app: function () {
+    this.mkdir('build');
+    this.mkdir('build/css');
+    this.mkdir('build/js');
+    this.mkdir('build/img');
+    this.mkdir('src');
+    this.mkdir('src/js');
+    var cssPath = (this.taskNames.indexOf("sass") != -1) ? 'sass' : 'css'
+    this.mkdir('src/'+cssPath);
+    this.mkdir('src/img');
+    this.copy('_index.html', 'index.html');
+    this.copy('_main.js', 'src/js/main.js');
+    this.copy('_package.json', 'package.json');
+    this._processDirectory(this.taskRunner);
   },
 
   projectfiles: function () {
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
+  },
+  installDeps: function() {
+  this.installDependencies();
   }
 });
 
-    module.exports = Test2Generator;
+
+Test2Generator.prototype._processDirectory = function(taskRunner) {
+  console.log("TR is", taskRunner);
+  if (taskRunner === 'gulp'){
+    this.mkdir('gulp');
+    this.mkdir('gulp/tasks');
+    this.directory('gulp/util', 'gulp/util');
+    this.copy('_gulpfile.js', 'gulpfile.js');
+    this.copy('gulp/_index.js', 'gulp/index.js');
+    this.copy('gulp/tasks/_default.js', 'gulp/tasks/default.js');
+    this.copy('gulp/tasks/_build.js', 'gulp/tasks/build.js');
+    this.copy('gulp/tasks/_watch.js', 'gulp/tasks/watch.js');
+    for (var i in this.taskNames){
+      console.log("task", this.taskNames[i]);
+      this.copy('gulp/tasks/_'+this.taskNames[i]+'.js', 'gulp/tasks/'+this.taskNames[i]+'.js');
+    }
+  }
+};
+module.exports = Test2Generator;
