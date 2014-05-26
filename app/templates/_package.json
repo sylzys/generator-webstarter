@@ -7,7 +7,7 @@
   	"gulp-watch" : "latest",
   	"gulp-rename" : "latest",<% } %>
   	"<%= taskRunner %>": "latest"
-  	<% if (customConfig) {%>,
+  	<% if (customConfig && customConfig.length > 0) {%>,
   		<% l=customConfig.length;_.each(customConfig,function(k, i) { %>
   	"<%= k %>":"latest"
   	<% if (i != l-1) {%> ,

@@ -2,7 +2,9 @@
   "name": "package",
   "version": "1.0.0",
   "dependencies": {<% if (needFrontFramework) {%>
-  	"<%= frontFramework %>": "latest"<% } %>
+  	"<%= frontFramework %>": "latest"<% } if (needJquery) { %>
+  	"jquery": "latest" <% } %>
   }
 }
+
 

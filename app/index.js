@@ -25,11 +25,6 @@ var WebstarterGenerator = yeoman.generators.Base.extend({
     var prompts = [{
       name: 'appName',
       message: 'Hello! What\'s your folder\'s name ?'
-    },
-    {
-      name: 'needJquery',
-      type: 'confirm',
-      message: 'Do you want to include jQuery ?'
     }];
 
     this.prompt(prompts, function (props) {
@@ -71,6 +66,25 @@ var WebstarterGenerator = yeoman.generators.Base.extend({
       }
       done();
     }.bind(this));
+  },
+  askForJquery: function () {
+    var done = this.async();
+    //return;
+    var prompts = [{
+      name: 'needJquery',
+      type: 'confirm',
+      message: 'Do you want to include jQuery ?'
+    }];
+    if (!this.needFrontFramework){
+      this.prompt(prompts, function (props) {
+        for(var k in props){
+          this[k]=props[k];
+        }
+        done();
+      }.bind(this));
+    }
+    else
+      done();
   },
   askForTaskRunnerNeeds: function () {
     var done = this.async();
@@ -157,8 +171,8 @@ var WebstarterGenerator = yeoman.generators.Base.extend({
       }.bind(this));
      }
      else
-        done();
-   }.bind(this));
+      done();
+  }.bind(this));
   },
   enforceFolderName: function () {
     if (this.appName !== this._.last(this.destinationRoot().split(path.sep))) {
@@ -187,7 +201,7 @@ var WebstarterGenerator = yeoman.generators.Base.extend({
     this.copy('jshintrc', '.jshintrc');
   },
   installDeps: function() {
-  this.installDependencies();
+    this.installDependencies();
   }
 });
 
@@ -202,13 +216,15 @@ WebstarterGenerator.prototype._processDirectory = function(taskRunner) {
     this.copy('gulp/tasks/_default.js', 'gulp/tasks/default.js');
     this.copy('gulp/tasks/_build.js', 'gulp/tasks/build.js');
     this.copy('gulp/tasks/_watch.js', 'gulp/tasks/watch.js');
-    for (var i in this.taskNames){
-      console.log("task", this.taskNames[i]);
-      this.copy('gulp/tasks/_'+this.taskNames[i]+'.js', 'gulp/tasks/'+this.taskNames[i]+'.js');
+    if (this.taskNames.length > 0){
+      for (var i in this.taskNames){
+        console.log("task", this.taskNames[i]);
+        this.copy('gulp/tasks/_'+this.taskNames[i]+'.js', 'gulp/tasks/'+this.taskNames[i]+'.js');
+      }
     }
   }
-    else if ('grunt' === taskRunner){
-      this.copy('_Gruntfile.js', 'Gruntfile.js');
-    }
+  else if ('grunt' === taskRunner){
+    this.copy('_Gruntfile.js', 'Gruntfile.js');
+  }
 };
 module.exports = WebstarterGenerator;

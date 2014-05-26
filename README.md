@@ -27,7 +27,7 @@ Introduction
 
 No more need to copy-paste folders from an old project, no more need to go on Boostrap or jQuery to fetch the sources...
 
-This generator allows you to customize your web page (or web app) boilerplate. Choose what you need, and let it prepare your files.
+This generator allows you to customize your web project boilerplate. Choose what you need, and let it prepare your files.
 
 Installation
 ------------
@@ -94,4 +94,3 @@ Todo
 - Add test tasks (mocha...)
 - Add livereload task
 - Add serve/open tasks
-- Add error verification (use custom task but nothing selected...)
