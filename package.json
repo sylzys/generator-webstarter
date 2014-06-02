@@ -1,17 +1,33 @@
 {
-  "name": "generator-test2",
-  "version": "0.0.0",
-  "description": "Yeoman generator",
+  "name": "generator-webstarter",
+  "version": "1.0.0",
+  "description": "Yeoman generator to use as a starter for your web projects",
+   "keywords": [
+    "yeoman-generator",
+    "foundation",
+    "bootstrap",
+    "grunt",
+    "gulp",
+    "scaffold",
+    "framework",
+    "front-end",
+    "app"
+  ],
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "someuser/generator-test2",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sylzys/generator-webstarter.git"
+  },
+  "homepage": "https://github.com/sylzys/generator-webstarter",
+  "bugs": "https://github.com/sylzys/generator-webstarter/issues",
   "author": {
-    "name": "",
-    "email": "",
-    "url": "https://github.com/someuser"
+    "name": "Sylvain Zyssman",
+    "url": "https://github.com/sylzys"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.10.0",
+    "npm": ">=1.2.10"
   },
   "scripts": {
     "test": "mocha"
@@ -25,7 +41,6 @@
   "dependencies": {
     "yeoman-generator": "~0.16.0",
     "chalk": "~0.4.0",
-    "yosay": "^0.1.0",
     "walk": "^2.3.3"
   },
   "devDependencies": {
