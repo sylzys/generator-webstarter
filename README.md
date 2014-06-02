@@ -32,8 +32,10 @@ This generator allows you to customize your web project boilerplate. Choose what
 Installation
 ------------
 
-Until it is avaible on npm, please follow the [alternative installation method](#alternative-installation-methods)
-
+Open your terminal and type
+``` js
+npm install -g generator-webstarter
+```
 ### Alternative installation method
 
 Clone this repository:
